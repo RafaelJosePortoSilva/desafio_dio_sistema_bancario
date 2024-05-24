@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 class Conta:
 
     def __init__(self,numero,agencia,cliente):
@@ -53,13 +53,25 @@ class Historico:
         self.dados.append(transacao)
 
 class Transacao(ABC):
-    ...
+
+    @abstractmethod
+    def registrar(self, conta):
+        ...
 
 class Deposito(Transacao):
-    ...
+
+    def __init__(self,valor):
+        self.valor = valor
+    def registrar(self, conta):
+        conta.depositar(self.valor)
 
 class Saque(Transacao):
-    ...
+    def __init__(self, valor):
+        self.valor = valor
+
+    def registrar(self, conta):
+        conta.sacar(self.valor)
+        ...
 
 class Cliente:
     ...
