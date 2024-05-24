@@ -42,6 +42,7 @@ class ContaCorrente(Conta):
         aux = ContaCorrente(numero, agencia, cliente)
         aux.set_limite(limite)
         aux.set_limite_saques(limite_saques)
+        return aux
 
 
 
@@ -49,8 +50,9 @@ class Historico:
     def __init__(self):
         self.dados = []
 
-    def adicionar_transacao(self,transacao):
-        self.dados.append(transacao)
+    def adicionar_transacao(self,transacao,conta):
+        self.dados.append(transacao,conta)
+
 
 class Transacao(ABC):
 
@@ -74,7 +76,22 @@ class Saque(Transacao):
         ...
 
 class Cliente:
-    ...
+
+    def __init__(self,endereco,contas=[]):
+        self.endereco=endereco
+        self.contas=contas
+
+    def adicionar_transacao(self, conta, transacao):
+        Historico().adicionar_transacao(transacao,conta)
+
+    def adicionar_conta(self,conta):
+        self.contas.append(conta)
 
 class PessoaFisica(Cliente):
-    ...
+
+    def __init__(self,endereco, cpf, nome, data_nascimento ,contas=[]):
+        super().__init__(endereco,contas)
+
+        self.cpf=cpf
+        self.nome=nome
+        self.data_nascimentp=data_nascimento
